@@ -6,39 +6,33 @@ import { Client } from '@notionhq/client';
 const notion = new Client({ auth: process.env.NOTION_KEY });
 const pageId = process.env.NOTION_PAGE_ID as string;
 
+
+
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     if (req.method === 'POST') {
         try {
-            // Extract dbTitle from the request body
-            const { title: dbTitle } = req.body;
+            const blockId = '2159e6a2d21d4d68913ced6afe9aa1bb';
 
-            // Ensure dbTitle is not empty
-            if (!dbTitle) {
-                return res.status(400).json({ message: "dbTitle is required" });
-            }
-
-            const newDb = await notion.databases.create({
-                parent: {
-                    type: "page_id",
-                    page_id: pageId,
-                },
-                title: [
+            const response = await notion.blocks.children.append({
+                block_id: blockId,
+                children: [
                     {
-                        type: "text",
-                        text: {
-                            content: dbTitle,
-                        },
+                        "code": {
+                            "language": "javascript",
+                            "rich_text": [
+                                {
+                                    "type": "text",
+                                    "text": {
+                                        "content": "console.log('Hello, world!');"
+                                    }
+                                }
+                            ]
+                        }
                     },
                 ],
-                properties: {
-                    Name: {
-                        title: {},
-                    },
-                },
             });
+            console.log(response);
 
-            console.log(newDb); // It's generally a good practice to limit logging of potentially sensitive information in production
-            res.status(200).json({ message: "success!", data: newDb });
         } catch (error) {
             console.error(error); // Log the error
             res.status(500).json({ message: "error", error });
