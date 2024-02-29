@@ -1,0 +1,15 @@
+# Local metadata files
+.DS_Store
+.vscode
+.env
+
+.next/*
+
+# Node packages
+node_modules
+package-lock.json
+
+.env
+vite.config.ts
+
+yarn.lock
