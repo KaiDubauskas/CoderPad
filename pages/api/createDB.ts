@@ -5,6 +5,7 @@ import { Client } from '@notionhq/client';
 // Initialize Notion client
 const notion = new Client({ auth: process.env.NOTION_KEY });
 const pageId = process.env.NOTION_PAGE_ID as string;
+const url = process.env.NEXT_URL as string;
 
 
 
@@ -19,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 children: [
                     {
                         "embed": {
-                            url: `http://localhost:3000`,
+                            url: `${url}/?code=${dbTitle}`,
                             "caption": [
                                 {
                                     "type": "text",

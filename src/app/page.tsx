@@ -25,11 +25,11 @@ export default function Home() {
     }
   };
 
-  useEffect(() => {
-    if (code) {
-      handleCreateDB()
-    }
-  }, [])
+  // useEffect(() => {
+  //   if (code) {
+  //     handleCreateDB()
+  //   }
+  // }, [])
 
 
 
