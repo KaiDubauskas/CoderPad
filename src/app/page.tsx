@@ -1,13 +1,10 @@
-"use client";
-import React from 'react';
-import { useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react';
+import React, { Suspense } from 'react';
+import { useSearchParams } from 'next/navigation';
 
-export default function Home() {
-  const params = useSearchParams()
-  const code = params?.get('code')
-
-
+// A separate component to handle the search params and the operation that depends on them
+const DatabaseCreator = () => {
+  const params = useSearchParams();
+  const code = params?.get('code');
 
   const handleCreateDB = async () => {
     try {
@@ -16,7 +13,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ code }), // Send title in the request body
+        body: JSON.stringify({ code }), // Send the code in the request body
       });
       const data = await response.json();
       console.log(data); // Handle success
@@ -25,20 +22,21 @@ export default function Home() {
     }
   };
 
-  // useEffect(() => {
-  //   if (code) {
-  //     handleCreateDB()
-  //   }
-  // }, [])
+  return (
+    <>
+      {code}
+      <button onClick={handleCreateDB}>Create DB</button>
+    </>
+  );
+};
 
-
-
-
+// The main component that uses Suspense to wrap the part of your component that requires it
+export default function Home() {
   return (
     <main>
-      {code}
-
-      <button onClick={handleCreateDB}>Create DB</button>
+      <Suspense fallback={<div>Loading...</div>}>
+        <DatabaseCreator />
+      </Suspense>
     </main>
   );
 }
