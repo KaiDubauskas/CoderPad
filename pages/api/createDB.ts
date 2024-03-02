@@ -11,14 +11,16 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === 'POST') {
         try {
             const blockId = '2159e6a2d21d4d68913ced6afe9aa1bb';
-            const { title: dbTitle } = req.body;
+            const { code: code } = req.body;
+
+            console.log("LAKsndf", code);
 
             const response = await notion.blocks.children.append({
                 block_id: blockId,
                 children: [
                     {
                         "embed": {
-                            url: `${url}/?code=${dbTitle}`,
+                            url: `${url}/?code=${code}`,
                             "caption": [
                                 {
                                     "type": "text",
