@@ -1,10 +1,13 @@
 "use client";
-import { useEffect, useState } from 'react';
-// Adjusted Home component
 import React from 'react';
+import { useSearchParams } from 'next/navigation'
+import { useEffect, useState } from 'react';
 
 export default function Home() {
-  const [title, setTitle] = useState('');
+  const params = useSearchParams()
+  const code = params?.get('code')
+
+
 
   const handleCreateDB = async () => {
     try {
@@ -13,7 +16,7 @@ export default function Home() {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ title }), // Send title in the request body
+        body: JSON.stringify({ code }), // Send title in the request body
       });
       const data = await response.json();
       console.log(data); // Handle success
@@ -22,19 +25,19 @@ export default function Home() {
     }
   };
 
-  const handleTitleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTitle(event.target.value);
-  };
+  // useEffect(() => {
+  //   if (code) {
+  //     handleCreateDB()
+  //   }
+  // }, [])
+
+
+
 
   return (
     <main>
-      <h1>Notion API Test</h1>
-      <input
-        type="text"
-        placeholder="DB Title"
-        value={title}
-        onChange={handleTitleChange}
-      />
+      {code}
+
       <button onClick={handleCreateDB}>Create DB</button>
     </main>
   );

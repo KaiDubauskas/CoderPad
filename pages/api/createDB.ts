@@ -5,6 +5,7 @@ import { Client } from '@notionhq/client';
 // Initialize Notion client
 const notion = new Client({ auth: process.env.NOTION_KEY });
 const pageId = process.env.NOTION_PAGE_ID as string;
+const url = process.env.NEXT_URL as string;
 
 
 
@@ -12,26 +13,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === 'POST') {
         try {
             const blockId = '2159e6a2d21d4d68913ced6afe9aa1bb';
+            const { title: dbTitle } = req.body;
 
             const response = await notion.blocks.children.append({
                 block_id: blockId,
                 children: [
                     {
-                        "code": {
-                            "language": "javascript",
-                            "rich_text": [
-                                {
-                                    "type": "text",
-                                    "text": {
-                                        "content": "console.log('Hello, world!');"
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    {
                         "embed": {
-                            url: "https://editcode.vercel.app/",
+                            url: `${url}/?code=${dbTitle}`,
                             "caption": [
                                 {
                                     "type": "text",
