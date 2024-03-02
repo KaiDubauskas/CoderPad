@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 children: [
                     {
                         "embed": {
-                            url: `${url}/?code=${code}`,
+                            url: `${url}?code=${code}`,
                             "caption": [
                                 {
                                     "type": "text",
