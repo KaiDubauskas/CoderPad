@@ -1,15 +1,19 @@
 "use client"
 import React, { Suspense } from 'react';
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 import { useSearchParams } from 'next/navigation';
+import { TextInput } from '@mantine/core';
+
 
 // A separate component to handle the search params and the operation that depends on them
 const DatabaseCreator = () => {
   const params = useSearchParams();
   const code = params?.get('code');
-  useEffect(() => {
+  const [newCode, setNewCode] = useState<string>(code || "No code found");
 
-    console.log("code", code)
+
+  useEffect(() => {
+    setNewCode(code || "No code found");
   }, [])
 
   const createDB = async () => {
@@ -19,7 +23,7 @@ const DatabaseCreator = () => {
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ code }), // Send the code in the request body
+        body: JSON.stringify({ code: newCode }), // Send the code in the request body
       });
       const data = await response.json();
       console.log(data); // Handle success
@@ -38,7 +42,9 @@ const DatabaseCreator = () => {
 
         <h1 className="text-white m-2">{code}</h1>
 
-        <button className="text-white bg-slate-600" onClick={handleCreateDB}>Create DB</button>
+        <TextInput onChange={(e) => setNewCode(e.currentTarget.value)} value={newCode}></TextInput>
+
+        <button className="text-white bg-slate-600 m3" onClick={handleCreateDB}>Create DB</button>
       </div>
 
     </>
