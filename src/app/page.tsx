@@ -1,13 +1,18 @@
 "use client"
 import React, { Suspense } from 'react';
+import { useEffect } from 'react';
 import { useSearchParams } from 'next/navigation';
 
 // A separate component to handle the search params and the operation that depends on them
 const DatabaseCreator = () => {
   const params = useSearchParams();
   const code = params?.get('code');
+  useEffect(() => {
 
-  const handleCreateDB = async () => {
+    console.log("code", code)
+  }, [])
+
+  const createDB = async () => {
     try {
       const response = await fetch('/api/createDB', {
         method: 'POST',
@@ -22,6 +27,10 @@ const DatabaseCreator = () => {
       console.error(error); // Handle error
     }
   };
+
+  function handleCreateDB() {
+    createDB();
+  }
 
   return (
     <>
