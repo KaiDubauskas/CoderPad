@@ -34,8 +34,13 @@ const DatabaseCreator = () => {
 
   return (
     <>
-      {code}
-      <button onClick={handleCreateDB}>Create DB</button>
+      <div className="bg-black p-5">
+
+        <h1 className="text-white m-2">{code}</h1>
+
+        <button className="text-white bg-slate-600" onClick={handleCreateDB}>Create DB</button>
+      </div>
+
     </>
   );
 };
