@@ -12,26 +12,14 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method === 'POST') {
         try {
             const blockId = '2159e6a2d21d4d68913ced6afe9aa1bb';
+            const { title: dbTitle } = req.body;
 
             const response = await notion.blocks.children.append({
                 block_id: blockId,
                 children: [
                     {
-                        "code": {
-                            "language": "javascript",
-                            "rich_text": [
-                                {
-                                    "type": "text",
-                                    "text": {
-                                        "content": "console.log('Hello, world!');"
-                                    }
-                                }
-                            ]
-                        }
-                    },
-                    {
                         "embed": {
-                            url: "https://editcode.vercel.app/",
+                            url: `http://localhost:3000`,
                             "caption": [
                                 {
                                     "type": "text",
