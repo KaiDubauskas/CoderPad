@@ -20,13 +20,16 @@ const DatabaseCreator = () => {
       const updateParams = new URLSearchParams(params.toString())
       updateParams.set(name, value)
 
+      console.log("updateParams kkk", updateParams.toString())
+
       return updateParams.toString()
     },
     [params]
   )
 
   useEffect(() => {
-    setNewCode(code || "No code found");
+    console.log("onLoad code, ", code)
+    console.log("onLoad blockId, ", blockId)
   }, [])
 
   const createDB = async () => {
@@ -43,20 +46,21 @@ const DatabaseCreator = () => {
       console.log("complete: ", data); // Handle success
       console.log("new query", createQueryString("blockId", data.blockId))
       router.push(pathname + '?' + createQueryString("blockId", data.blockId))
-      updateDB()
+      updateDB(data.blockId)
     } catch (error) {
       console.error(error); // Handle error
     }
   };
 
-  async function updateDB() {
+  async function updateDB(id: string) {
     try {
-      const response = await fetch('/api/updateDB', {
+      console.log("newwest cde", newCode)
+      const response = await fetch('/api/updateURL', {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',
         },
-        body: JSON.stringify({ code: newCode, blockId: blockId }), // Send the code in the request body
+        body: JSON.stringify({ code: newCode, blockId: id }), // Send the code in the request body
       });
       const data = await response.json();
 
@@ -71,7 +75,8 @@ const DatabaseCreator = () => {
     createDB();
   }
   function handleUpdateDB() {
-    updateDB();
+    if (blockId)
+      updateDB(blockId);
   }
 
   return (
@@ -83,7 +88,7 @@ const DatabaseCreator = () => {
         <TextInput onChange={(e) => setNewCode(e.currentTarget.value)} value={newCode}></TextInput>
 
         <button className="text-white bg-slate-600 m3" onClick={handleCreateDB}>Create DB</button>
-        <button className="text-white bg-slate-600 m3" onClick={handleUpdateDB}>Create DB</button>
+        <button className="text-white bg-slate-600 m3" onClick={handleUpdateDB}>Update DB</button>
       </div>
 
     </>

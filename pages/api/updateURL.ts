@@ -14,6 +14,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             const { code: code, blockId: blockId } = req.body;
 
             console.log("LAKsndf", code);
+            console.log("JKSNDFKJNDJKFN", blockId)
 
             const response = await notion.blocks.update({
                 block_id: blockId,
