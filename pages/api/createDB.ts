@@ -29,8 +29,31 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                             ]
                         }
                     },
+                    {
+                        "embed": {
+                            url: "https://editcode.vercel.app/",
+                            "caption": [
+                                {
+                                    "type": "text",
+                                    "text": {
+                                        "content": "Num1"
+                                    }
+                                },
+                                {
+                                    annotations: {
+                                        code: true
+                                    },
+                                    "type": "text",
+                                    "text": {
+                                        "content": "num2"
+                                    }
+                                }
+                            ]
+                        }
+                    },
                 ],
             });
+
             console.log(response);
 
         } catch (error) {
